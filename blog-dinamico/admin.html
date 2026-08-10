@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Caderno Digital — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="cabecalho">
+    <div class="cabecalho-conteudo">
+      <a href="index.html" class="logo">📓 Meu Caderno Digital</a>
+      <nav class="menu">
+        <a href="index.html" class="menu-link">Início</a>
+        <a href="admin.html" class="menu-link ativo">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="encadernacao" aria-hidden="true"></div>
+
+  <main class="pagina">
+    <section class="intro">
+      <span class="rotulo">Área restrita (só de fachada — sem login real)</span>
+      <!--
+        O <h1 id="titulo-formulario"> começa com o texto "Novo post",
+        mas o JavaScript troca esse texto para "Editando post" quando a
+        página é aberta em modo de edição (ex: admin.html?id=123).
+      -->
+      <h1 id="titulo-formulario">Novo post</h1>
+    </section>
+
+    <!--
+      FORMULÁRIO DE CRIAÇÃO/EDIÇÃO.
+      O id="formulario-post" é o que o script.js usa para saber
+      "estou na página de admin, preciso rodar a lógica do admin".
+    -->
+    <form id="formulario-post" class="formulario formulario-post">
+      <!--
+        Campo escondido: guarda o ID do post quando estamos EDITANDO.
+        Se estiver vazio, o JS entende que é um post NOVO.
+        Isso evita ter que duplicar o formulário para "criar" e "editar".
+      -->
+      <input type="hidden" id="post-id" value="">
+
+      <div class="campo">
+        <label for="post-titulo">Título</label>
+        <input type="text" id="post-titulo" required placeholder="Título do post">
+      </div>
+
+      <div class="campo">
+        <label for="post-autor">Autor</label>
+        <input type="text" id="post-autor" required placeholder="Seu nome">
+      </div>
+
+      <div class="campo">
+        <label for="post-conteudo">Conteúdo</label>
+        <textarea id="post-conteudo" required rows="8" placeholder="Escreva o post aqui..."></textarea>
+      </div>
+
+      <div class="acoes-formulario">
+        <button type="submit" class="botao botao-primario" id="botao-salvar">Publicar post</button>
+        <button type="button" class="botao botao-secundario" id="botao-cancelar" hidden>Cancelar edição</button>
+      </div>
+    </form>
+
+    <section class="secao-lista-admin">
+      <h2>Posts existentes</h2>
+      <!--
+        Lista administrativa: mostra todos os posts com botões de
+        "Editar" e "Excluir". Preenchida via JS.
+      -->
+      <div id="posts-admin-lista" class="lista-posts lista-posts-admin"></div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>Projeto didático — HTML, CSS e JavaScript puro, sem frameworks.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

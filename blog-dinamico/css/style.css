@@ -1,0 +1,426 @@
+/* ============================================================
+   MEU CADERNO DIGITAL — style.css
+   ============================================================
+   Este arquivo é o ÚNICO CSS do projeto e é usado pelas 3 páginas
+   (index.html, post.html, admin.html) através da linha:
+     <link rel="stylesheet" href="css/style.css">
+   Ou seja: mudar uma regra aqui muda a aparência do blog inteiro.
+   Isso é uma boa prática — evita repetir estilo em cada página.
+   ============================================================ */
+
+/* ---------- 1. VARIÁVEIS DE COR E ESPAÇAMENTO ----------
+   :root é um "seletor" que representa o documento HTML inteiro.
+   Definir cores aqui como variáveis (--nome-da-variavel) permite
+   reaproveitá-las em todo o CSS com var(--nome-da-variavel).
+   Vantagem: para trocar a cor principal do site, muda-se em 1 lugar. */
+   :root {
+    --papel: #FBF8F3;        /* cor de fundo, como uma folha de caderno */
+    --papel-linha: #E4DCC8;  /* cor das "linhas" e divisórias */
+    --tinta: #23262B;        /* cor principal do texto (quase preto) */
+    --tinta-suave: #5B5F66;  /* texto secundário, mais claro */
+    --margem: #B54B4B;       /* vermelho da margem do caderno (detalhe de assinatura) */
+    --destaque: #2E6E6E;     /* azul-petróleo: links, botões, títulos */
+    --destaque-escuro: #1F4E4E;
+    --aviso: #C9962C;        /* dourado usado no contador de likes */
+    --branco: #FFFFFF;
+    --raio: 10px;             /* border-radius usado em cartões e botões */
+    --sombra: 0 2px 10px rgba(35, 38, 43, 0.08);
+  }
+  
+  /* ---------- 2. RESET BÁSICO ----------
+     Navegadores diferentes aplicam margens/paddings padrão diferentes.
+     Zerar isso logo no início evita "surpresas" de espaçamento. */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* padding e border passam a contar DENTRO da largura definida */
+  }
+  
+  html, body {
+    min-height: 100%;
+  }
+  
+  body {
+    font-family: 'Inter', system-ui, sans-serif; /* fonte do corpo do texto */
+    background: var(--papel);
+    color: var(--tinta);
+    line-height: 1.6; /* espaçamento entre linhas — melhora a leitura */
+  }
+  
+  /* Títulos usam a fonte serifada Fraunces, que tem mais personalidade */
+  h1, h2, h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: var(--tinta);
+    line-height: 1.25;
+  }
+  
+  a {
+    color: var(--destaque);
+    text-decoration: none;
+  }
+  a:hover { text-decoration: underline; }
+  
+  code {
+    font-family: 'Space Mono', monospace;
+    background: var(--papel-linha);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  
+  /* ---------- 3. LAYOUT GERAL DA PÁGINA ----------
+     .pagina é o elemento <main> de cada página. Limitar a largura
+     máxima (max-width) e centralizar com margin: 0 auto é o jeito
+     mais simples de criar um layout "de coluna" legível. */
+  .pagina {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  
+  /* ---------- 4. CABEÇALHO ---------- */
+  .cabecalho {
+    background: var(--branco);
+    border-bottom: 1px solid var(--papel-linha);
+    position: sticky; /* fica fixo no topo ao rolar a página */
+    top: 0;
+    z-index: 10;
+  }
+  
+  .cabecalho-conteudo {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    /* Flexbox: distribui logo e menu nas extremidades e alinha
+       verticalmente ao centro. É a ferramenta certa para "uma linha
+       de itens" — diferente do Grid, que serve melhor para grades 2D. */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap; /* em telas estreitas, quebra para a linha de baixo */
+  }
+  
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--tinta);
+  }
+  .logo:hover { text-decoration: none; }
+  
+  .menu {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .menu-link {
+    color: var(--tinta-suave);
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent; /* reserva o espaço do sublinhado ativo */
+  }
+  .menu-link:hover { text-decoration: none; color: var(--destaque); }
+  .menu-link.ativo { color: var(--destaque); border-bottom-color: var(--destaque); }
+  
+  /* ---------- 5. ELEMENTO DE ASSINATURA: A "ENCADERNAÇÃO" ----------
+     Esta é a barra vertical vermelha com "furos", inspirada em folhas
+     de caderno perfuradas. É o detalhe visual único do projeto — o
+     resto do layout é deliberadamente simples para não competir com ele.
+     Só aparece em telas largas (ver media query mais abaixo). */
+  .encadernacao {
+    display: none;
+  }
+  
+  /* ---------- 6. INTRODUÇÃO DE PÁGINA ---------- */
+  .intro { margin-bottom: 32px; }
+  
+  .rotulo {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--margem);
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  
+  .subtitulo { color: var(--tinta-suave); margin-top: 6px; }
+  
+  /* ---------- 7. LISTA DE POSTS (usada na home e no admin) ---------- */
+  .lista-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .cartao-post {
+    background: var(--branco);
+    border: 1px solid var(--papel-linha);
+    border-left: 4px solid var(--margem); /* referência à margem do caderno */
+    border-radius: var(--raio);
+    padding: 20px 22px;
+    box-shadow: var(--sombra);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cartao-post:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(35, 38, 43, 0.12);
+  }
+  
+  .cartao-post h3 { font-size: 1.25rem; margin-bottom: 6px; }
+  .cartao-post h3 a { color: var(--tinta); }
+  .cartao-post h3 a:hover { color: var(--destaque); text-decoration: none; }
+  
+  .meta-post {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--tinta-suave);
+    margin-bottom: 10px;
+  }
+  
+  .resumo-post { color: var(--tinta-suave); margin-bottom: 12px; }
+  
+  .rodape-cartao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--tinta-suave);
+  }
+  
+  .contador-likes-mini::before { content: "♥ "; color: var(--margem); }
+  
+  .mensagem-vazia {
+    text-align: center;
+    color: var(--tinta-suave);
+    padding: 48px 20px;
+    border: 1px dashed var(--papel-linha);
+    border-radius: var(--raio);
+  }
+  
+  /* ---------- 8. PÁGINA DE POST INDIVIDUAL ---------- */
+  .link-voltar {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    color: var(--tinta-suave);
+  }
+  .link-voltar:hover { color: var(--destaque); }
+  
+  .post-detalhe h1 { font-size: 2rem; margin-bottom: 10px; }
+  
+  .post-detalhe .meta-post { margin-bottom: 24px; }
+  
+  .conteudo-post {
+    font-size: 1.05rem;
+    white-space: pre-wrap; /* preserva as quebras de linha digitadas no admin */
+    margin-bottom: 28px;
+  }
+  
+  .bloco-likes {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--papel-linha);
+  }
+  
+  .botao-like {
+    background: var(--branco);
+    border: 1px solid var(--margem);
+    color: var(--margem);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 10px 18px;
+    border-radius: 999px; /* pílula */
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+  }
+  .botao-like:hover { background: var(--margem); color: var(--branco); }
+  .botao-like:active { transform: scale(0.96); }
+  .botao-like.curtido { background: var(--margem); color: var(--branco); }
+  
+  /* ---------- 9. COMENTÁRIOS ---------- */
+  .secao-comentarios { margin-top: 44px; }
+  .secao-comentarios h2 { margin-bottom: 18px; font-size: 1.4rem; }
+  
+  .lista-comentarios { list-style: none; margin-bottom: 24px; }
+  
+  .comentario {
+    background: var(--branco);
+    border: 1px solid var(--papel-linha);
+    border-radius: var(--raio);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  
+  .comentario-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--tinta-suave);
+    margin-bottom: 6px;
+    font-family: 'Space Mono', monospace;
+  }
+  
+  .comentario-autor { color: var(--destaque); font-weight: 700; }
+  
+  .mensagem-vazia-comentarios {
+    color: var(--tinta-suave);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+  
+  /* ---------- 10. FORMULÁRIOS (comentário e admin) ----------
+     Usamos Flexbox em coluna para empilhar os campos verticalmente,
+     com um espaçamento (gap) constante entre eles. */
+  .formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--branco);
+    border: 1px solid var(--papel-linha);
+    border-radius: var(--raio);
+    padding: 22px;
+    box-shadow: var(--sombra);
+  }
+  
+  .campo { display: flex; flex-direction: column; gap: 6px; }
+  
+  .campo label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--tinta-suave);
+  }
+  
+  .campo input,
+  .campo textarea {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1rem;
+    padding: 10px 12px;
+    border: 1px solid var(--papel-linha);
+    border-radius: 6px;
+    background: var(--papel);
+    color: var(--tinta);
+    resize: vertical;
+  }
+  
+  .campo input:focus,
+  .campo textarea:focus {
+    outline: 2px solid var(--destaque); /* acessibilidade: foco visível no teclado */
+    outline-offset: 1px;
+    background: var(--branco);
+  }
+  
+  .botao {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 11px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s ease, transform 0.1s ease;
+  }
+  .botao:active { transform: scale(0.98); }
+  
+  .botao-primario { background: var(--destaque); color: var(--branco); }
+  .botao-primario:hover { background: var(--destaque-escuro); }
+  
+  .botao-secundario { background: transparent; color: var(--tinta-suave); border: 1px solid var(--papel-linha); }
+  .botao-secundario:hover { background: var(--papel-linha); }
+  
+  .acoes-formulario { display: flex; gap: 12px; }
+  
+  /* ---------- 11. PÁGINA ADMIN: lista de posts com ações ---------- */
+  .secao-lista-admin { margin-top: 44px; }
+  .secao-lista-admin h2 { margin-bottom: 16px; font-size: 1.4rem; }
+  
+  .lista-posts-admin .cartao-post {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .acoes-admin { display: flex; gap: 8px; }
+  
+  .botao-mini {
+    font-size: 0.82rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--papel-linha);
+    background: var(--papel);
+    color: var(--tinta);
+    cursor: pointer;
+  }
+  .botao-mini:hover { background: var(--papel-linha); }
+  .botao-mini.excluir { color: var(--margem); border-color: var(--margem); }
+  .botao-mini.excluir:hover { background: var(--margem); color: var(--branco); }
+  
+  /* ---------- 12. RODAPÉ ---------- */
+  .rodape {
+    text-align: center;
+    color: var(--tinta-suave);
+    font-size: 0.82rem;
+    padding: 24px;
+  }
+  
+  /* ============================================================
+     13. RESPONSIVIDADE
+     ============================================================
+     Estratégia adotada: "mobile first" ao contrário — o layout base
+     já funciona em celular (uma coluna, largura fluida). As media
+     queries abaixo apenas ADICIONAM recursos para telas maiores,
+     como a barra de encadernação decorativa e ajustes de espaçamento.
+     Isso é mais simples de manter do que escrever regras separadas
+     para "mobile" e depois sobrescrever tudo para "desktop". */
+  
+  /* Telas médias/grandes (tablets na horizontal e desktops) */
+  @media (min-width: 768px) {
+    .pagina { padding: 56px 24px 100px; }
+  
+    .post-detalhe h1 { font-size: 2.3rem; }
+  
+    /* Mostra a "encadernação": uma barra fixa do lado esquerdo com
+       furinhos, simulando um caderno perfurado. O truque aqui é usar
+       um radial-gradient REPETIDO como plano de fundo: cada "círculo"
+       branco vira um furo na barra vermelha, sem precisar de vários
+       elementos HTML — é decoração pura, então fica só no CSS. */
+    .encadernacao {
+      display: block;
+      position: fixed;
+      top: 120px;
+      left: calc(50% - 460px); /* alinhada à esquerda da coluna de 760px */
+      width: 14px;
+      height: 60vh;
+      border-radius: 7px;
+      background-color: var(--margem);
+      background-image: radial-gradient(circle, var(--papel) 5px, transparent 5.5px);
+      background-size: 14px 40px;
+      background-repeat: repeat-y;
+      opacity: 0.55;
+    }
+  }
+  
+  @media (min-width: 1100px) {
+    /* Em telas bem largas há espaço de sobra nas laterais para a
+       encadernação sem sobrepor o conteúdo. Recalculamos a posição
+       em função da largura da coluna central. */
+    .encadernacao { left: calc(50% - 420px); }
+  }
+  
+  /* Telas pequenas (celulares) — pequenos ajustes de espaçamento e
+     tipografia para não parecer "espremido". */
+  @media (max-width: 480px) {
+    .pagina { padding: 28px 16px 60px; }
+    .post-detalhe h1 { font-size: 1.6rem; }
+    .cabecalho-conteudo { padding: 14px 16px; }
+    .acoes-formulario { flex-direction: column; }
+    .acoes-formulario .botao { width: 100%; }
+    .lista-posts-admin .cartao-post { flex-direction: column; align-items: flex-start; }
+  }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Caderno Digital — Início</title>
+
+  <!-- Fontes do Google Fonts: uma serifada para títulos (Fraunces) e uma
+       monoespaçada para detalhes tipo "anotação de caderno" (Space Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Aqui conectamos o CSS: o navegador vai ler style.css e aplicar
+       as regras de estilo a todo o HTML desta página -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- CABEÇALHO: aparece igual em index.html, post.html e admin.html.
+       Repetir esse bloco em cada página é normal em um projeto sem
+       framework — cada arquivo HTML é independente. -->
+  <header class="cabecalho">
+    <div class="cabecalho-conteudo">
+      <a href="index.html" class="logo">📓 Meu Caderno Digital</a>
+      <nav class="menu">
+        <a href="index.html" class="menu-link ativo">Início</a>
+        <a href="admin.html" class="menu-link">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Encadernação decorativa (elemento de assinatura visual do projeto,
+       só aparece em telas largas — ver media query no CSS) -->
+  <div class="encadernacao" aria-hidden="true"></div>
+
+  <main class="pagina">
+    <section class="intro">
+      <span class="rotulo">Página inicial</span>
+      <h1>Últimas anotações</h1>
+      <p class="subtitulo">Todos os posts abaixo estão guardados no <code>localStorage</code> do seu navegador.</p>
+    </section>
+
+    <!--
+      Este é o container onde o JavaScript vai "desenhar" a lista de posts.
+      Ele começa VAZIO de propósito: o conteúdo é gerado dinamicamente
+      pela classe Blog (método renderizarListaPosts), lendo os dados do
+      localStorage. Isso é o que torna o blog "dinâmico" mesmo sem back-end.
+    -->
+    <div id="posts-lista" class="lista-posts">
+      <!-- os <article class="cartao-post"> serão inseridos aqui via JS -->
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <p>Projeto didático — HTML, CSS e JavaScript puro, sem frameworks.</p>
+  </footer>
+
+  <!--
+    O script é carregado no FINAL do <body> de propósito.
+    Motivo: quando o navegador chega nessa linha, todo o HTML acima
+    (inclusive a <div id="posts-lista">) já existe na página. Se o script
+    fosse carregado no <head>, ele poderia tentar manipular elementos que
+    ainda não existem, e o código quebraria.
+  -->
+  <script src="js/script.js"></script>
+</body>
+</html>

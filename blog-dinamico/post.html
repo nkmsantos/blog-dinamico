@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Caderno Digital — Post</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="cabecalho">
+    <div class="cabecalho-conteudo">
+      <a href="index.html" class="logo">📓 Meu Caderno Digital</a>
+      <nav class="menu">
+        <a href="index.html" class="menu-link">Início</a>
+        <a href="admin.html" class="menu-link">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="encadernacao" aria-hidden="true"></div>
+
+  <main class="pagina">
+    <a href="index.html" class="link-voltar">&larr; voltar para todos os posts</a>
+
+    <!--
+      Container principal do post. Assim como #posts-lista na home,
+      ele é preenchido dinamicamente. O JavaScript descobre QUAL post
+      mostrar lendo o parâmetro "id" da URL, algo como:
+      post.html?id=1699999999999
+    -->
+    <article id="post-detalhe" class="post-detalhe">
+      <!-- título, autor, data, conteúdo e botão de like entram aqui via JS -->
+    </article>
+
+    <!-- SEÇÃO DE COMENTÁRIOS -->
+    <section class="secao-comentarios">
+      <h2>Comentários</h2>
+
+      <!--
+        Lista de comentários já existentes. Também é preenchida via JS,
+        lendo o array `comentarios` guardado dentro do post no localStorage.
+      -->
+      <ul id="lista-comentarios" class="lista-comentarios"></ul>
+
+      <!--
+        Formulário para adicionar um novo comentário.
+        Note que NÃO usamos action="" nem method="post" — não estamos
+        enviando isso para nenhum servidor. O JavaScript vai "escutar"
+        o evento de envio (submit) e cuidar de tudo com o localStorage.
+      -->
+      <form id="formulario-comentario" class="formulario">
+        <div class="campo">
+          <label for="comentario-autor">Seu nome</label>
+          <input type="text" id="comentario-autor" name="autor" required placeholder="Ex: Maria">
+        </div>
+        <div class="campo">
+          <label for="comentario-texto">Comentário</label>
+          <textarea id="comentario-texto" name="texto" required rows="3" placeholder="Escreva aqui..."></textarea>
+        </div>
+        <button type="submit" class="botao botao-primario">Enviar comentário</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>Projeto didático — HTML, CSS e JavaScript puro, sem frameworks.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
